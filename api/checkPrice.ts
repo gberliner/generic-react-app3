@@ -17,10 +17,7 @@ export default function checkPrice(req: Request, res: Response, next: NextFuncti
     let connectionString = process.env.DATABASE_URL;
     let productName = "Regular Plaque"
     let pgClient = new pg.Client({
-        connectionString,
-        ssl: {
-            rejectUnauthorized: false,
-        }
+        connectionString
     });
     pgClient.connect();
     pgClient.query(`select price from salescatalog where name='${productName}'`).then(

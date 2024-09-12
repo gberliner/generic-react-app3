@@ -1,0 +1,59 @@
+# fly.toml file generated for plaqueorderpage on 2022-09-05T16:05:37-07:00
+# note that the variables, 
+# CATALOGUPDATE_WEBHOOK_SIGKEY,ORDERUPDATE_WEBHOOK_SIGKEY,SENDGRID_API_KEY,SQUARE_ACCESS_TOKEN 
+# are now set as fly secrets
+
+app = "late-night-2269"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[build]
+  builder = "heroku/buildpacks:20"
+
+[env]
+  PORT = "8080"
+  NOTIFICATION_RECIPIENT = "guy.berliner@gmail.com"
+  DATABASE_URL = "postgres://postgres:d2d732a4679926fdc09164000a2d46161f425c686c87bbf7@pgtest1.internal:5432"
+  NODE_ENV = "production"
+  STAGING = "true"
+  LOCATION_ID  = "L3KY2D4KW2QY1"
+
+[build.args]
+  REACT_APP_APPLICATION_ID = "sandbox-sq0idb-VzMOEyD4MVY_cF9jZXOogQ"
+  REACT_APP_LOCATION_ID  = "L3KY2D4KW2QY1"
+  NODE_OPTIONS = "--max_old_space_size=920"
+  REACT_APP_OVERPASS_ENDPOINT = "https://dark-snowflake-7733.fly.dev/api/interpreter"
+  REACT_APP_OSM_BBOX = "45.4803,-122.6618,45.5018,-122.6265"
+
+[experimental]
+  allowed_public_ports = []
+  auto_rollback = true
+
+[[services]]
+  http_checks = []
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"
+
+

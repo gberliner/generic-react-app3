@@ -12,18 +12,9 @@ const NOTIFICATION_URL = 'https://dementia-praecox.herokuapp.com/api/catalog-ver
 const connectionString = process.env.DATABASE_URL
 const pool = new pg.Pool(
   {
-    connectionString,
-    ssl: {
-      rejectUnauthorized: false
-    }
+    connectionString
   }
 )
-// const pgClient = new pg.Client({
-//   connectionString,
-//   ssl: {
-//     rejectUnauthorized: false
-//   }
-// })
 
 function isFromSquare(request: Request, sigKey: string, readFromHeaders=false) {
   const hmac = createHmac('sha1', sigKey);

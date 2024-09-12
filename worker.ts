@@ -34,11 +34,7 @@ if (process.env.NODE_ENV === "production" && process.env.STAGING !== 'true') {
 const sqClient = new Square.Client(configSquare)
 const connectionString = process.env.DATABASE_URL
 const pgPool = new pg.Pool({
-    connectionString,
-    ssl: {
-        rejectUnauthorized: false
-    }
-
+    connectionString
 })
 
 type VendorOrderInfo = {
